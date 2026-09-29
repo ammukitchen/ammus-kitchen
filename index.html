@@ -1,15 +1,475 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ammu's Kitchen</title><style>body{margin:0;font-family:Arial,sans-serif;background:#fffaf3;color:#2b2118}nav{padding:16px 5%;background:#fff;border-bottom:1px solid #eadfd2;position:sticky;top:0}nav a{margin:0 8px;color:#2b2118;text-decoration:none;font-weight:bold}.hero{text-align:center;padding:90px 20px;background:#fff0dc}.hero h1{font-size:56px;margin:0}.hero p{font-size:20px}.btn{background:#d85b32;color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:bold;cursor:pointer;margin:4px}section{max-width:1050px;margin:auto;padding:60px 20px}.title{text-align:center;margin-bottom:30px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}.card{background:#fff;border:1px solid #eadfd2;border-radius:16px;padding:22px;box-shadow:0 6px 20px #0000000d}.price{font-weight:bold;color:#d85b32;margin:12px 0}.order{display:grid;grid-template-columns:1fr 350px;gap:20px}input,select,textarea{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #d9cbbd;border-radius:8px;box-sizing:border-box}label{font-weight:bold}.item{padding:10px 0;border-bottom:1px solid #eadfd2;display:flex;justify-content:space-between}.total{font-weight:bold;font-size:20px;display:flex;justify-content:space-between;padding-top:16px}.hours{width:100%;border-collapse:collapse;background:#fff}.hours td{padding:12px;border-bottom:1px solid #eadfd2}.hours td:last-child{text-align:right;font-weight:bold}footer{background:#21170f;color:#fff;text-align:center;padding:35px}footer a{color:#fff}@media(max-width:750px){.order{grid-template-columns:1fr}.hero h1{font-size:42px}nav a{display:inline-block;margin:4px}}</style></head><body>
-<nav><strong style="color:#d85b32;font-size:21px">Ammu's Kitchen</strong> <span style="float:right"><a href="#menu">Menu</a><a href="#about">About</a><a href="#order">Order</a><a href="#hours">Hours</a><a href="#contact">Contact</a></span></nav>
-<header class="hero"><h1>Ammu's Kitchen</h1><p><b>Homemade food. Made with love.</b></p><p>Fresh homemade favorites for pickup in Mays Landing, NJ.</p><a class="btn" href="#menu">View Menu</a><a class="btn" href="#order">Order Now</a></header>
-<section id="menu"><div class="title"><h2>Our Menu</h2><p>Homemade favorites at family-friendly prices.</p></div><div class="grid">
-<div class="card"><h3>Chicken Salad Sandwich</h3><p>$2 each or 3 for $5</p><button class="btn" onclick="add('Chicken Salad Sandwich',2)">Add 1 — $2</button><button class="btn" onclick="add('Chicken Salad Sandwich (3)',5)">Add 3 — $5</button></div>
-<div class="card"><h3>Tuna Sandwich</h3><p class="price">$1 each</p><button class="btn" onclick="add('Tuna Sandwich',1)">Add — $1</button></div>
-<div class="card"><h3>Beef Kabab</h3><p class="price">$3 each</p><button class="btn" onclick="add('Beef Kabab',3)">Add — $3</button></div>
-<div class="card"><h3>Fried Rice w/ Mixed Vegetables</h3><p class="price">$5</p><button class="btn" onclick="add('Fried Rice w/ Mixed Vegetables',5)">Add — $5</button></div>
-<div class="card"><h3>Egg Pudding</h3><p class="price">$5</p><button class="btn" onclick="add('Egg Pudding',5)">Add — $5</button></div></div></section>
-<section id="about"><div class="title"><h2>About Us</h2><p>Welcome to Ammu's Kitchen! We make homemade food with care for our local community.</p><p>Questions? <a href="mailto:ammuskitchen1971@gmail.com">ammuskitchen1971@gmail.com</a></p></div></section>
-<section id="order"><div class="title"><h2>Order Now</h2><p>Add your food, choose payment, and send the request.</p></div><div class="order"><div class="card"><h3>Your Order</h3><div id="cart">Your cart is empty.</div><div class="total"><span>Total</span><span id="total">$0.00</span></div></div><div class="card"><h3>Customer Details</h3><form onsubmit="sendOrder(event)"><label>Name</label><input id="name" required><label>Phone</label><input id="phone" type="tel" required><label>Payment</label><select id="payment" required><option value="">Choose payment</option><option>Zelle</option><option>Venmo</option><option>Cash</option></select><label>Notes</label><textarea id="notes"></textarea><p>Pickup in Mays Landing, NJ. <b>Exact pickup address provided after your order is confirmed.</b></p><button class="btn" type="submit">Send Order Request</button></form></div></div></section>
-<section id="hours"><div class="title"><h2>Hours</h2></div><table class="hours"><tr><td>Monday</td><td>5 PM – 8 PM</td></tr><tr><td>Tuesday</td><td>5 PM – 8 PM</td></tr><tr><td>Wednesday</td><td>5 PM – 8 PM</td></tr><tr><td>Thursday</td><td>11 AM – 6 PM</td></tr><tr><td>Friday</td><td>5 PM – 8 PM</td></tr><tr><td>Saturday</td><td>11 AM – 6 PM</td></tr><tr><td>Sunday</td><td>11 AM – 6 PM</td></tr></table></section>
-<section id="contact"><div class="title"><h2>Contact</h2><p>📧 <a href="mailto:ammuskitchen1971@gmail.com">ammuskitchen1971@gmail.com</a></p><p>📞 <a href="tel:6096653524">609-665-3524</a></p><p>💳 Zelle • Venmo • Cash</p></div></section>
-<footer><b>Ammu's Kitchen</b><p>Homemade food. Made with love.</p></footer>
-<script>let cart=[];function add(n,p){cart.push({n,p});render();document.getElementById('order').scrollIntoView({behavior:'smooth'})}function remove(i){cart.splice(i,1);render()}function render(){let c=document.getElementById('cart');if(!cart.length){c.textContent='Your cart is empty.';document.getElementById('total').textContent='$0.00';return}c.innerHTML=cart.map((x,i)=>`<div class="item"><span>${x.n}</span><span>$${x.p.toFixed(2)} <button onclick="remove(${i})">×</button></span></div>`).join('');document.getElementById('total').textContent='$'+cart.reduce((a,x)=>a+x.p,0).toFixed(2)}function sendOrder(e){e.preventDefault();if(!cart.length){alert('Please add an item first.');return}let total=cart.reduce((a,x)=>a+x.p,0),items=cart.map(x=>x.n+' - $'+x.p.toFixed(2)).join('\n');let body=`NEW AMMU'S KITCHEN ORDER\nORDER NUMBER: ${orderNumber}\n\nCustomer: ${name.value}\nPhone: ${phone.value}\nPayment: ${payment.value}\n\nORDER:\n${items}\n\nTOTAL: $${total.toFixed(2)}\n\nNOTES: ${notes.value||'None'}\n\nPickup in Mays Landing, NJ. Exact pickup address provided after your order is confirmed.`;location.href='mailto:ammuskitchen1971@gmail.com?subject='+encodeURIComponent("New Ammu's Kitchen Order")+'&body='+encodeURIComponent(body)}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ammu's Kitchen</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,sans-serif;background:#fffaf3;color:#2b2118}
+nav{position:sticky;top:0;z-index:20;background:#fffaf3ee;border-bottom:1px solid #eadfd2}
+.nav{max-width:1100px;margin:auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.logo{font-size:1.35rem;font-weight:900;color:#d85b32;text-decoration:none}
+.links{display:flex;gap:16px;flex-wrap:wrap}
+.links a{color:#2b2118;text-decoration:none;font-weight:700}
+.hero{text-align:center;padding:90px 20px;background:linear-gradient(135deg,#fff0dc,#fffaf3)}
+.hero h1{font-size:clamp(2.7rem,8vw,5rem);margin:0}
+.hero p{color:#75675b;font-size:1.1rem}
+section{max-width:1100px;margin:auto;padding:65px 20px}
+.title{text-align:center;margin-bottom:32px}
+.title h2{font-size:2.2rem;margin:0 0 8px}
+.title p{color:#75675b}
+.btn{display:inline-block;border:0;border-radius:11px;background:#d85b32;color:white;padding:12px 18px;font-weight:800;cursor:pointer;text-decoration:none}
+.dark{background:#21170f}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:20px}
+.card{background:white;border:1px solid #eadfd2;border-radius:18px;padding:22px;box-shadow:0 8px 25px #3c230f10}
+.card h3{margin-top:0}
+.card p{color:#75675b}
+.price{color:#d85b32;font-weight:900;font-size:1.15rem;margin:15px 0}
+.order{display:grid;grid-template-columns:1fr 360px;gap:22px}
+.item{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #eadfd2;padding:12px 0}
+.item button{border:0;border-radius:6px;cursor:pointer}
+.total{display:flex;justify-content:space-between;font-weight:900;font-size:1.3rem;padding-top:18px}
+label{display:block;font-weight:800;margin:11px 0 5px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #d9cbbd;border-radius:9px;font:inherit}
+textarea{min-height:85px}
+.note{font-size:.9rem;color:#75675b}
+table{width:100%;border-collapse:collapse;background:white;border:1px solid #eadfd2}
+td{padding:13px 16px;border-bottom:1px solid #eadfd2}
+td:last-child{text-align:right;font-weight:800}
+footer{background:#21170f;color:white;text-align:center;padding:35px 20px}
+#confirmation{display:none;position:fixed;inset:0;z-index:100;background:#fffaf3;overflow:auto;padding:25px 18px}
+.confirm-box{max-width:680px;margin:35px auto;background:white;border:1px solid #eadfd2;border-radius:24px;padding:32px;box-shadow:0 18px 50px #3c230f20;text-align:center}
+.check{font-size:4rem}
+.confirm-box h2{font-size:2.5rem;margin:5px 0}
+.order-number{font-size:1.35rem;font-weight:900;color:#d85b32;margin:15px 0}
+.details{text-align:left;background:#fffaf3;border-radius:15px;padding:18px;margin:20px 0}
+.row{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid #eadfd2}
+.row:last-child{border-bottom:0}
+.items-list{white-space:pre-line;text-align:right}
+@media(max-width:800px){
+.nav{flex-direction:column;align-items:flex-start}
+.order{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav">
+<a class="logo" href="#home">Ammu's Kitchen</a>
+<div class="links">
+<a href="#home">Home</a>
+<a href="#menu">Menu</a>
+<a href="#about">About Us</a>
+<a href="#order">Order Now</a>
+<a href="#hours">Hours</a>
+<a href="#pickup">Pickup</a>
+<a href="#contact">Contact</a>
+</div>
+</div>
+</nav>
+
+<header class="hero" id="home">
+<h1>Ammu's Kitchen</h1>
+<p><b>Homemade food. Made with love.</b></p>
+<p>Fresh homemade favorites for pickup in Mays Landing, NJ.</p>
+<a class="btn" href="#menu">View Menu</a>
+<a class="btn dark" href="#order">Order Now</a>
+</header>
+
+<section id="menu">
+<div class="title">
+<h2>Our Menu</h2>
+<p>Homemade favorites at family-friendly prices.</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>Chicken Salad Sandwich</h3>
+<p>Homemade chicken salad sandwich.</p>
+<div class="price">$2 each • 3 for $5</div>
+<button class="btn" onclick="addItem('Chicken Salad Sandwich',2)">Add 1 — $2</button>
+<button class="btn dark" onclick="addItem('Chicken Salad Sandwich (3)',5)">Add 3 — $5</button>
+</div>
+
+<div class="card">
+<h3>Tuna Sandwich</h3>
+<p>Homemade tuna sandwich.</p>
+<div class="price">$1 each</div>
+<button class="btn" onclick="addItem('Tuna Sandwich',1)">Add — $1</button>
+</div>
+
+<div class="card">
+<h3>Beef Kabab</h3>
+<p>Homemade beef kabab.</p>
+<div class="price">$3 each</div>
+<button class="btn" onclick="addItem('Beef Kabab',3)">Add — $3</button>
+</div>
+
+<div class="card">
+<h3>Fried Rice w/ Mixed Vegetables</h3>
+<p>Homemade fried rice with mixed vegetables.</p>
+<div class="price">$5</div>
+<button class="btn" onclick="addItem('Fried Rice w/ Mixed Vegetables',5)">Add — $5</button>
+</div>
+
+<div class="card">
+<h3>Egg Pudding</h3>
+<p>Homemade egg pudding.</p>
+<div class="price">$5</div>
+<button class="btn" onclick="addItem('Egg Pudding',5)">Add — $5</button>
+</div>
+
+</div>
+</section>
+
+<section id="about">
+<div class="title">
+<h2>About Us</h2>
+</div>
+
+<div style="max-width:800px;margin:auto;text-align:center">
+<p>Welcome to <b>Ammu's Kitchen!</b></p>
+<p>We make homemade food with care for our local community in Mays Landing, NJ.</p>
+<p>
+Questions?
+<a href="mailto:ammuskitchen1971@gmail.com">ammuskitchen1971@gmail.com</a>
+or
+<a href="tel:6096653524">609-665-3524</a>.
+</p>
+</div>
+</section>
+
+<section id="order">
+
+<div class="title">
+<h2>Order Now</h2>
+<p>Add your food, enter your information, and confirm your order.</p>
+</div>
+
+<div class="order">
+
+<div class="card">
+<h3>Your Order</h3>
+
+<div id="cart">
+<p class="note">Your cart is empty.</p>
+</div>
+
+<div class="total">
+<span>Total</span>
+<span id="total">$0.00</span>
+</div>
+</div>
+
+<div class="card">
+
+<h3>Customer Details</h3>
+
+<form id="orderForm">
+
+<label for="name">Name</label>
+<input id="name" required placeholder="Your name">
+
+<label for="phone">Phone</label>
+<input id="phone" required type="tel" placeholder="Your phone number">
+
+<label for="payment">Payment</label>
+<select id="payment" required>
+<option value="">Choose payment</option>
+<option>Zelle</option>
+<option>Venmo</option>
+<option>Cash</option>
+</select>
+
+<label for="notes">Notes</label>
+<textarea id="notes" placeholder="Anything we should know?"></textarea>
+
+<p class="note">
+Pickup in Mays Landing, NJ.
+Exact pickup address is provided after your order is confirmed.
+</p>
+
+<button class="btn" style="width:100%" type="submit">
+Confirm Order
+</button>
+
+</form>
+
+</div>
+
+</div>
+</section>
+
+<section id="hours">
+
+<div class="title">
+<h2>Hours</h2>
+</div>
+
+<table>
+<tr><td>Monday</td><td>5 PM – 8 PM</td></tr>
+<tr><td>Tuesday</td><td>5 PM – 8 PM</td></tr>
+<tr><td>Wednesday</td><td>5 PM – 8 PM</td></tr>
+<tr><td>Thursday</td><td>11 AM – 6 PM</td></tr>
+<tr><td>Friday</td><td>5 PM – 8 PM</td></tr>
+<tr><td>Saturday</td><td>11 AM – 6 PM</td></tr>
+<tr><td>Sunday</td><td>11 AM – 6 PM</td></tr>
+</table>
+
+</section>
+
+<section id="pickup">
+
+<div class="title">
+<h2>Pickup Information</h2>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>📍 Pickup</h3>
+<p>Pickup in Mays Landing, NJ.</p>
+<b>Exact pickup address provided after your order is confirmed.</b>
+</div>
+
+<div class="card">
+<h3>💳 Payment</h3>
+<p><b>Zelle • Venmo • Cash</b></p>
+</div>
+
+</div>
+</section>
+
+<section id="contact">
+
+<div class="title">
+<h2>Contact</h2>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>📧 Email</h3>
+<a href="mailto:ammuskitchen1971@gmail.com">
+ammuskitchen1971@gmail.com
+</a>
+</div>
+
+<div class="card">
+<h3>📞 Phone</h3>
+<a href="tel:6096653524">
+609-665-3524
+</a>
+</div>
+
+</div>
+</section>
+
+<div id="confirmation">
+
+<div class="confirm-box">
+
+<div class="check">✅</div>
+
+<h2>Order Confirmed!</h2>
+
+<p>
+Your order has been received by <b>Ammu's Kitchen</b>.
+</p>
+
+<div class="order-number" id="confirmationNumber"></div>
+
+<div class="details">
+
+<div class="row">
+<span>Customer</span>
+<b id="confirmationCustomer"></b>
+</div>
+
+<div class="row">
+<span>Items</span>
+<b class="items-list" id="confirmationItems"></b>
+</div>
+
+<div class="row">
+<span>Total</span>
+<b id="confirmationTotal"></b>
+</div>
+
+<div class="row">
+<span>Payment</span>
+<b id="confirmationPayment"></b>
+</div>
+
+</div>
+
+<p>
+<b>What's next?</b>
+<br>
+Ammu's Kitchen will contact you to confirm the order and provide the exact pickup address.
+</p>
+
+<p class="note">
+Pickup in Mays Landing, NJ.
+</p>
+
+<button class="btn" onclick="closeConfirmation()">
+Back to Website
+</button>
+
+</div>
+</div>
+
+<footer>
+<b>Ammu's Kitchen</b>
+<p>Homemade food. Made with love.</p>
+<p>ammuskitchen1971@gmail.com · 609-665-3524</p>
+</footer>
+
+<script>
+
+let cart=[];
+
+function addItem(name,price){
+
+cart.push({
+name:name,
+price:price
+});
+
+renderCart();
+
+document.getElementById("order").scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+renderCart();
+
+}
+
+function renderCart(){
+
+const cartBox=document.getElementById("cart");
+const totalBox=document.getElementById("total");
+
+if(cart.length===0){
+
+cartBox.innerHTML='<p class="note">Your cart is empty.</p>';
+
+totalBox.textContent="$0.00";
+
+return;
+
+}
+
+cartBox.innerHTML=cart.map((item,index)=>
+'<div class="item">'+
+'<span>'+item.name+'</span>'+
+'<span>$'+item.price.toFixed(2)+' '+
+'<button type="button" onclick="removeItem('+index+')">×</button>'+
+'</span>'+
+'</div>'
+).join("");
+
+const total=cart.reduce(function(sum,item){
+return sum+item.price;
+},0);
+
+totalBox.textContent="$"+total.toFixed(2);
+
+}
+
+document.getElementById("orderForm").addEventListener("submit",function(event){
+
+event.preventDefault();
+
+if(cart.length===0){
+
+alert("Please add at least one item to your order.");
+
+return;
+
+}
+
+const customer=document.getElementById("name").value.trim();
+const phone=document.getElementById("phone").value.trim();
+const payment=document.getElementById("payment").value;
+const notes=document.getElementById("notes").value.trim();
+
+const total=cart.reduce(function(sum,item){
+return sum+item.price;
+},0);
+
+const orderNumber="AK-"+Math.floor(100000+Math.random()*900000);
+
+const itemText=cart.map(function(item){
+return item.name+" - $"+item.price.toFixed(2);
+}).join("\n");
+
+document.getElementById("confirmationNumber").textContent=
+"Order #"+orderNumber;
+
+document.getElementById("confirmationCustomer").textContent=
+customer;
+
+document.getElementById("confirmationItems").textContent=
+itemText;
+
+document.getElementById("confirmationTotal").textContent=
+"$"+total.toFixed(2);
+
+document.getElementById("confirmationPayment").textContent=
+payment;
+
+document.getElementById("confirmation").style.display="block";
+
+document.body.style.overflow="hidden";
+
+const emailBody=
+"NEW AMMU'S KITCHEN ORDER\n\n"+
+"ORDER NUMBER: "+orderNumber+"\n"+
+"Customer: "+customer+"\n"+
+"Phone: "+phone+"\n"+
+"Payment: "+payment+"\n\n"+
+"ORDER:\n"+itemText+"\n\n"+
+"TOTAL: $"+total.toFixed(2)+"\n\n"+
+"NOTES:\n"+(notes||"None")+"\n\n"+
+"Pickup in Mays Landing, NJ.\n"+
+"Exact pickup address provided after the order is confirmed.";
+
+setTimeout(function(){
+
+window.location.href=
+"mailto:ammuskitchen1971@gmail.com"+
+"?subject="+
+encodeURIComponent("Ammu's Kitchen Order #"+orderNumber)+
+"&body="+
+encodeURIComponent(emailBody);
+
+},800);
+
+});
+
+function closeConfirmation(){
+
+document.getElementById("confirmation").style.display="none";
+
+document.body.style.overflow="";
+
+}
+
+</script>
+
+</body>
+</html>
